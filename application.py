@@ -71,7 +71,7 @@ def handle_message(event):
     elif message_text in "終了":
         running_status_json = {'running': False}
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
-        message = TextSendMessage(text="回答ありがと〜")
+        message = TextSendMessage(text="回答ありがとうございました。")
         line_bot_api.push_message(user_id, message)
     elif message_text in "12345":
         current_unix_time = time.time()
