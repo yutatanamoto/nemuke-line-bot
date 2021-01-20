@@ -97,7 +97,7 @@ def handle_message(event):
         running_status_json_obj = json.loads(running_status_byte_obj)
         running = running_status_json_obj["running"]
         if running:
-            message = TextSendMessage(text="眠気レベルは0,1のいずれかで回答してください。\n回答を終了する場合は「終了」と送ってください。")
+            message = TextSendMessage(text="無効な回答です...\n回答を終了する場合は「終了」と送ってください。")
         else:
             message = TextSendMessage(text="回答を始める場合は「開始」と送ってくださいね。")
         line_bot_api.push_message(user_id, message)
