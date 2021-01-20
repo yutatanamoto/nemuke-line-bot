@@ -90,7 +90,7 @@ def handle_message(event):
             }
         ]
         log_obj.put(Body = json.dumps(log_json, indent=4))
-        message = TextSendMessage(text="眠気レベルは{}ですね。\n記録させていただきました。".format(message_text))
+        message = TextSendMessage(text="回答ありがとうございます。\n記録させていただきました。")
         line_bot_api.push_message(user_id, message)
     else:
         running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
