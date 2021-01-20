@@ -59,7 +59,7 @@ def handle_message(event):
             running_status_json_obj = json.loads(running_status_byte_obj)
             running = running_status_json_obj["running"]
             if running:
-                message = TextSendMessage(text="起きてる????????\n眠気レベルを1~5のいずれかの数値で教えてください!!!!!")
+                message = TextSendMessage(text="hoge")
                 line_bot_api.push_message(user_id, message)
                 time.sleep(QUESTIONNAIRE_INTERVAL)
             else:
