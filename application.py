@@ -4,7 +4,7 @@ import boto3
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
 LINE_CHANNNEL_ACCES_TOKEN = "FNLz+5QIJjIthabavgC5GN/TwPi1VGfs9acVa+kJnMKpFKCdL1gPHwnUTTcQ+DiXzoGU2DiendxRsy+KEQk04gOhUoTi7dZsJiSO5LxgLMGCtNp3eUApse/M2Ci1aRBBBtsU8aF9QIIBSBBtpL943AdB04t89/1O/w1cDnyilFU="
 LINE_CHANNEL_SECRET = "11c1e555be6a1e3dda413c22118df7fc"
@@ -54,13 +54,18 @@ def handle_message(event):
         if not exists_s3_obj_key(log_json_key):
             log_json = []
             log_obj.put(Body = json.dumps(log_json, indent=4))
+        flex_message_key = "flex_message.json"
+        flex_message_obj = s3.Object(AWS_S3_BUCKET_NAME, flex_message_key)
+        flex_message_byte_obj = flex_message_obj.get()['Body'].read().decode('utf-8')
+        flex_message_json_obj = json.loads(flex_message_byte_obj)
+        flex_message = FlexSendMessage(alt_text="sleepiness_logging", contents=flex_message_json_obj)
         while True:
             running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
             running_status_json_obj = json.loads(running_status_byte_obj)
             running = running_status_json_obj["running"]
             if running:
-                message = TextSendMessage(text="hoge")
-                line_bot_api.push_message(user_id, message)
+                # message = TextSendMessage(text="hoge")
+                line_bot_api.push_message(user_id, flex_message)
                 time.sleep(QUESTIONNAIRE_INTERVAL)
             else:
                 break
