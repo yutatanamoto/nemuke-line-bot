@@ -9,7 +9,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 LINE_CHANNNEL_ACCES_TOKEN = "FNLz+5QIJjIthabavgC5GN/TwPi1VGfs9acVa+kJnMKpFKCdL1gPHwnUTTcQ+DiXzoGU2DiendxRsy+KEQk04gOhUoTi7dZsJiSO5LxgLMGCtNp3eUApse/M2Ci1aRBBBtsU8aF9QIIBSBBtpL943AdB04t89/1O/w1cDnyilFU="
 LINE_CHANNEL_SECRET = "11c1e555be6a1e3dda413c22118df7fc"
 AWS_S3_BUCKET_NAME = "asahi-line-bot-backet"
-QUESTIONNAIRE_INTERVAL = 20
+QUESTIONNAIRE_INTERVAL = 600
 
 line_bot_api = LineBotApi(LINE_CHANNNEL_ACCES_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
