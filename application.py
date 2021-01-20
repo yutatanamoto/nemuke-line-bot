@@ -73,7 +73,7 @@ def handle_message(event):
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
         message = TextSendMessage(text="回答ありがとうございました。")
         line_bot_api.push_message(user_id, message)
-    elif message_text in "12345":
+    elif message_text in "0123":
         current_unix_time = time.time()
         log_json_key = "log_{}.json".format(display_name)
         log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
