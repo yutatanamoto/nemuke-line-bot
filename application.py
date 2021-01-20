@@ -9,7 +9,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 LINE_CHANNNEL_ACCES_TOKEN = "FNLz+5QIJjIthabavgC5GN/TwPi1VGfs9acVa+kJnMKpFKCdL1gPHwnUTTcQ+DiXzoGU2DiendxRsy+KEQk04gOhUoTi7dZsJiSO5LxgLMGCtNp3eUApse/M2Ci1aRBBBtsU8aF9QIIBSBBtpL943AdB04t89/1O/w1cDnyilFU="
 LINE_CHANNEL_SECRET = "11c1e555be6a1e3dda413c22118df7fc"
 AWS_S3_BUCKET_NAME = "asahi-line-bot-backet"
-QUESTIONNAIRE_INTERVAL = 20
+QUESTIONNAIRE_INTERVAL = 
 
 line_bot_api = LineBotApi(LINE_CHANNNEL_ACCES_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
@@ -73,7 +73,7 @@ def handle_message(event):
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
         message = TextSendMessage(text="回答ありがとうございました。")
         line_bot_api.push_message(user_id, message)
-    elif message_text in "0123":
+    elif message_text in "01":
         current_unix_time = time.time()
         log_json_key = "log_{}.json".format(display_name)
         log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
@@ -94,7 +94,7 @@ def handle_message(event):
         running_status_json_obj = json.loads(running_status_byte_obj)
         running = running_status_json_obj["running"]
         if running:
-            message = TextSendMessage(text="眠気レベルは0~3のいずれかで回答してください。\n回答を終了する場合は「終了」と送ってください。")
+            message = TextSendMessage(text="眠気レベルは0,1のいずれかで回答してください。\n回答を終了する場合は「終了」と送ってください。")
         else:
             message = TextSendMessage(text="回答を始める場合は「開始」と送ってくださいね。")
         line_bot_api.push_message(user_id, message)
