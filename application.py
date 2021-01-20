@@ -9,7 +9,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 LINE_CHANNNEL_ACCES_TOKEN = "FNLz+5QIJjIthabavgC5GN/TwPi1VGfs9acVa+kJnMKpFKCdL1gPHwnUTTcQ+DiXzoGU2DiendxRsy+KEQk04gOhUoTi7dZsJiSO5LxgLMGCtNp3eUApse/M2Ci1aRBBBtsU8aF9QIIBSBBtpL943AdB04t89/1O/w1cDnyilFU="
 LINE_CHANNEL_SECRET = "11c1e555be6a1e3dda413c22118df7fc"
 AWS_S3_BUCKET_NAME = "asahi-line-bot-backet"
-QUESTIONNAIRE_INTERVAL = 
+QUESTIONNAIRE_INTERVAL = 20
 
 line_bot_api = LineBotApi(LINE_CHANNNEL_ACCES_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
@@ -46,9 +46,12 @@ def handle_message(event):
     display_name = profile.display_name
     running_status_json_key = "running_status_{}.json".format(display_name)
     running_status_obj = s3.Object(AWS_S3_BUCKET_NAME, running_status_json_key)
+    running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
+    running_status_json_obj = json.loads(running_status_byte_obj)
+    running = running_status_json_obj["running"]
     log_json_key = "log_{}.json".format(display_name)
     log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
-    if message_text in "開始":
+    if message_text in "開始" and not running:
         running_status_json = {'running': True}
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
         if not exists_s3_obj_key(log_json_key):
