@@ -2,7 +2,7 @@
     "type": "bubble",
     "hero": {
       "type": "image",
-      "url": "https://asahi-line-bot-backet.s3-ap-northeast-1.amazonaws.com/4820.jpg"
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png"
     },
     "body": {
       "type": "box",
