@@ -61,7 +61,7 @@ def handle_message(event):
             log_json = []
             log_obj.put(Body = json.dumps(log_json, indent=4))
         flex_message_filepath = "./flex_message.json"
-        flex_message_file_obj = open(flex_message_filepath, 'r')
+        flex_message_file_obj = open(flex_message_filepath, encoding='utf-8')
         flex_message_json_obj = json.load(flex_message_file_obj)
         flex_message = FlexSendMessage(alt_text="sleepiness_logging", contents=flex_message_json_obj)
         while True:
