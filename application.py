@@ -73,12 +73,12 @@ def handle_message(event):
                 time.sleep(QUESTIONNAIRE_INTERVAL)
             else:
                 break
-    elif message_text == "終了":
+    elif message_text == "終了" and running:
         running_status_json = {'running': False}
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
         message = TextSendMessage(text="回答ありがとうございました!\nお疲れ様でした!!")
         line_bot_api.push_message(user_id, message)
-    elif message_text in "01":
+    elif message_text in "01" and running:
         current_unix_time = time.time()
         log_json_key = "log_{}.json".format(display_name)
         log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
