@@ -62,7 +62,7 @@ def handle_message(event):
             log_obj.put(Body = json.dumps(log_json, indent=4))
         flex_message_filepath = "./flex_message.json"
         # flex_message_obj = s3.Object(AWS_S3_BUCKET_NAME, flex_message_key)
-        flex_message_byte_obj = open(flex_message_filepath)
+        flex_message_byte_obj = open(flex_message_filepath, 'r')
         flex_message_json_obj = json.loads(flex_message_byte_obj)
         flex_message = FlexSendMessage(alt_text="sleepiness_logging", contents=flex_message_json_obj)
         while True:
