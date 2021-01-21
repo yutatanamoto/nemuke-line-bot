@@ -60,9 +60,9 @@ def handle_message(event):
         if not exists_s3_obj_key(log_json_key):
             log_json = []
             log_obj.put(Body = json.dumps(log_json, indent=4))
-        flex_message_key = "flex_message.json"
-        flex_message_obj = s3.Object(AWS_S3_BUCKET_NAME, flex_message_key)
-        flex_message_byte_obj = flex_message_obj.get()['Body'].read().decode('utf-8')
+        flex_message_filepath = "./flex_message.json"
+        # flex_message_obj = s3.Object(AWS_S3_BUCKET_NAME, flex_message_key)
+        flex_message_byte_obj = open(flex_message_filepath)
         flex_message_json_obj = json.loads(flex_message_byte_obj)
         flex_message = FlexSendMessage(alt_text="sleepiness_logging", contents=flex_message_json_obj)
         while True:

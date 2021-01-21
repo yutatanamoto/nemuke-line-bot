@@ -1,0 +1,51 @@
+{
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://www.freepik.com/free-vector/tired-employee-exhausted-with-work_7416583.htm"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "行動ログ取得",
+          "weight": "bold",
+          "size": "xl"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "horizontal",
+      "spacing": "sm",
+      "contents": [
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "sm",
+            "action": {
+              "type": "postback",
+              "label": "眠くない",
+              "data": "0",
+              "text": "0"
+            },
+            "color": "#FF99FF"
+          },
+        {
+          "type": "button",
+          "style": "primary",
+          "height": "sm",
+          "action": {
+            "type": "postback",
+            "label": "眠い",
+            "data": "1",
+            "text": "1"
+          },
+          "color": "#FF99FF"
+        }
+      ],
+      "flex": 0
+    }
+  }
