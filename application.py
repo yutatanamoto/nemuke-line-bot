@@ -94,14 +94,11 @@ def handle_message(event):
         log_obj.put(Body = json.dumps(log_json, indent=4))
         message = TextSendMessage(text="回答ありがとうございます...!!!")
         line_bot_api.push_message(user_id, message)
+    elif running:
+        message = TextSendMessage(text="とっても残念ですが無効な回答です...\n回答を終了する場合は「終了」と送ってくださいね。")
+        line_bot_api.push_message(user_id, message)
     else:
-        running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
-        running_status_json_obj = json.loads(running_status_byte_obj)
-        running = running_status_json_obj["running"]
-        if running:
-            message = TextSendMessage(text="とっても残念ですが無効な回答です...\n回答を終了する場合は「終了」と送ってくださいね。")
-        else:
-            message = TextSendMessage(text="回答を始める場合は「開始」と送ってくださいね。")
+        message = TextSendMessage(text="回答を始める場合は「開始」と送ってくださいね。")
         line_bot_api.push_message(user_id, message)
 
 def exists_s3_obj_key(key):
