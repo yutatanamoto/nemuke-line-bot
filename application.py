@@ -48,9 +48,9 @@ def handle_message(event):
     running_status_obj = s3.Object(AWS_S3_BUCKET_NAME, running_status_json_key)
     running_status = {'running': False}
     running_status_obj.put(Body = json.dumps(running_status, indent=4))
-    # running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
-    # running_status_json_obj = json.loads(running_status_byte_obj)
-    # running = running_status_json_obj["running"]
+    running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
+    running_status_json_obj = json.loads(running_status_byte_obj)
+    running = running_status_json_obj["running"]
     log_json_key = "log_{}.json".format(display_name)
     log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
     if message_text == "開始" and not running:
