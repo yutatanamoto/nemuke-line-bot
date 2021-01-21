@@ -6,8 +6,8 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
-LINE_CHANNNEL_ACCES_TOKEN = "FNLz+5QIJjIthabavgC5GN/TwPi1VGfs9acVa+kJnMKpFKCdL1gPHwnUTTcQ+DiXzoGU2DiendxRsy+KEQk04gOhUoTi7dZsJiSO5LxgLMGCtNp3eUApse/M2Ci1aRBBBtsU8aF9QIIBSBBtpL943AdB04t89/1O/w1cDnyilFU="
-LINE_CHANNEL_SECRET = "11c1e555be6a1e3dda413c22118df7fc"
+LINE_CHANNNEL_ACCES_TOKEN = "gf0oOfj7l+UGJKB8I1slxuzwQlfb8tEz6vWYdWUEiRtuf5yG4SWQjT02Y+j4IUoA9UDqIsJUrOMqXRVFcZ208oj4QsYsGVEFZlPm/0yf1yqQoRCkudrEegcaNW5fTbEsHxqkJIfzGniKcxBk5AaEaQdB04t89/1O/w1cDnyilFU="
+LINE_CHANNEL_SECRET = "2c13b6fe2cd19c6ee4b62c53a82010b8"
 AWS_S3_BUCKET_NAME = "asahi-line-bot-backet"
 QUESTIONNAIRE_INTERVAL = 600
 
@@ -51,9 +51,9 @@ def handle_message(event):
     running = running_status_json_obj["running"]
     log_json_key = "log_{}.json".format(display_name)
     log_obj = s3.Object(AWS_S3_BUCKET_NAME, log_json_key)
-    if message_text in "開始" and not running:
-        running_status_json = {'running': True}
-        running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
+    if message_text == "開始" and not running:
+        running_status = {'running': True}
+        running_status_obj.put(Body = json.dumps(running_status, indent=4))
         if not exists_s3_obj_key(log_json_key):
             log_json = []
             log_obj.put(Body = json.dumps(log_json, indent=4))
@@ -71,10 +71,10 @@ def handle_message(event):
                 time.sleep(QUESTIONNAIRE_INTERVAL)
             else:
                 break
-    elif message_text in "終了":
+    elif message_text == "終了":
         running_status_json = {'running': False}
         running_status_obj.put(Body = json.dumps(running_status_json, indent=4))
-        message = TextSendMessage(text="回答ありがとうございました。")
+        message = TextSendMessage(text="回答ありがとうございました!\nお疲れ様でした!!")
         line_bot_api.push_message(user_id, message)
     elif message_text in "01":
         current_unix_time = time.time()
@@ -85,19 +85,19 @@ def handle_message(event):
         log_json = [
             *log_json,
             {
-                'at': current_unix_time, 
+                "answered_at": current_unix_time, 
                 "value": message_text,
             }
         ]
         log_obj.put(Body = json.dumps(log_json, indent=4))
-        message = TextSendMessage(text="回答ありがとうございます。\n記録させていただきました。")
+        message = TextSendMessage(text="回答ありがとうございます...!!!")
         line_bot_api.push_message(user_id, message)
     else:
         running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
         running_status_json_obj = json.loads(running_status_byte_obj)
         running = running_status_json_obj["running"]
         if running:
-            message = TextSendMessage(text="無効な回答です...\n回答を終了する場合は「終了」と送ってください。")
+            message = TextSendMessage(text="とっても残念ですが無効な回答です...\n回答を終了する場合は「終了」と送ってくださいね。")
         else:
             message = TextSendMessage(text="回答を始める場合は「開始」と送ってくださいね。")
         line_bot_api.push_message(user_id, message)
