@@ -32,7 +32,7 @@
               "type": "postback",
               "label": "眠くない",
               "data": "0",
-              "text": "0"
+              "text": "眠くない"
             },
             "color": "#FF99FF"
           },
@@ -44,7 +44,7 @@
             "type": "postback",
             "label": "眠い",
             "data": "1",
-            "text": "1"
+            "text": "眠い"
           },
           "color": "#FF99FF"
         }
