@@ -45,8 +45,8 @@ def handle_message(event):
     profile = line_bot_api.get_profile(user_id)
     display_name = profile.display_name
     running_status_json_key = "running_status_{}.json".format(display_name)
+    running_status_obj = s3.Object(AWS_S3_BUCKET_NAME, running_status_json_key)
     if not exists_s3_obj_key(running_status_json_key):
-        running_status_obj = s3.Object(AWS_S3_BUCKET_NAME, running_status_json_key)
         running_status = {'running': False}
         running_status_obj.put(Body = json.dumps(running_status, indent=4))
     running_status_byte_obj = running_status_obj.get()['Body'].read().decode('utf-8')
